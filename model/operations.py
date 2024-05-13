@@ -3,15 +3,16 @@
 import os
 from typing import List, Tuple, Generator
 
-from kicad_resource_system.model.core import Core
-from kicad_resource_system.model.types import (
+from model.core import Core
+from model.kitypes import (
     Perm,
     OwnershipType,
     Entry,
     Platform,
     file_flags,
 )
-from kicad_resource_system.model import errors
+
+from model import errors
 
 # ==============================
 # > Helper Functions

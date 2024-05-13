@@ -5,8 +5,8 @@ from typing import List
 import platform
 import git
 
-from kicad_resource_system.model.types import Platform
-from kicad_resource_system.model.errors import (
+from model.kitypes import Platform
+from model.errors import (
     InvalidRepositoryError,
     UnknownPlatformError,
     UnsavedError,

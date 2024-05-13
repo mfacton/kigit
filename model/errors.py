@@ -10,14 +10,6 @@ class ProgramError(Exception):
 # ==============================
 
 
-class MissingConfigParameterError(ProgramError):
-    """Config.toml missing a config parameter"""
-
-
-class MissingConfigFileError(ProgramError):
-    """Config.toml does not exist"""
-
-
 class UnsavedError(ProgramError):
     """Try to change branch but is unsaved"""
 

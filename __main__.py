@@ -5,13 +5,12 @@ from typing import List, Sequence, Optional, Callable
 
 import click
 from prettytable import PrettyTable
-import toml
 
-from kicad_resource_system.model.core import Core
-from kicad_resource_system.model.types import Color, Entry
-from kicad_resource_system.model import errors
+from model.core import Core
+from model.kitypes import Color, Entry
+from model import errors
 
-from kicad_resource_system.model.operations import (
+from model.operations import (
     create_branch,
     checkin_branch,
     checkout_branch,
@@ -30,10 +29,6 @@ def color(msg: str, *colors: Sequence[Color]) -> str:
 
 
 error_msgs = {
-    errors.MissingConfigParameterError: color(
-        "config.toml file missing entry", Color.RED
-    ),
-    errors.MissingConfigFileError: color("config.toml file missing", Color.RED),
     errors.UnsavedError: color("Work not saved", Color.RED),
     errors.InvalidRepositoryError: color(
         "Working directory is not a repository", Color.RED
@@ -86,19 +81,12 @@ pass_core = click.make_pass_decorator(Core)
 
 
 @click.group()
-@click.option("--config", "-c")
 @click.pass_context
-def main(ctx, config: str) -> None:
+def main(ctx) -> None:
     """KiCAD Resource system commands"""
-    try:
-        with open("config.toml", "r", encoding="utf-8") as file:
-            config = toml.load(file)
-            status_branch = config["status_file"]["branch"]
-            status_file = config["status_file"]["path"]
-    except FileNotFoundError as e:
-        raise errors.MissingConfigFileError() from e
-    except KeyError as e:
-        raise errors.MissingConfigParameterError() from e
+    # possible to load from toml config
+    status_branch = "status"
+    status_file = "status.txt"
 
     try:
         ctx.obj = Core(status_branch, status_file)
